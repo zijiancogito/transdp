@@ -1,0 +1,3 @@
+[submodule "src/data/DSmith"]
+	path = src/data/DSmith
+	url = git@github.com:zijiancogito/DSmith.git
