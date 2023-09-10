@@ -1,3 +1,6 @@
 [submodule "src/data/DSmith"]
 	path = src/data/DSmith
 	url = git@github.com:zijiancogito/DSmith.git
+[submodule "src/preprocess/dwarfinfo"]
+	path = src/preprocess/dwarfinfo
+	url = git@github.com:zijiancogito/dwarfinfo.git
