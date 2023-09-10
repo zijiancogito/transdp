@@ -7,9 +7,10 @@ import time
 def compile(arch, filename, d, t):
     src = os.path.join(d, filename)
     obj = os.path.join(t, f"{filename.split('.')[0]}.o")
-    if arch == 'x86':
+    cc = None
+    if arch == 'x64':
         cc = 'gcc'
-    elif arch == 'arm':
+    elif arch == 'aarch64':
         cc = 'aarch64-linux-gnu-gcc'
     else:
         raise NotImplemented
@@ -26,8 +27,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='source_gen.py')
     parser.add_argument('-j', '--proc', type=int, default=16, help='number of processing')
     parser.add_argument('-o', '--save', type=str, default='../', help='root path to save the results')
-    parser.add_argument('-s', '--src', type=str, default='../', help='path to source code')
-    parser.add_argument('-M', '--arch', type=str, default='x86', choices=['x86', 'aarch64'],help='path to source code')
+    parser.add_argument('-i', '--input', type=str, default='../', help='path to source code')
+    parser.add_argument('-M', '--arch', type=str, default='x64', choices=['x64', 'aarch64'],help='path to source code')
 
 
     subparser = parser.add_subparsers(help='sub-command help')
@@ -39,13 +40,13 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     start = time.time()
-    files = os.listdir(args.src)
+    files = os.listdir(args.input)
     if not os.path.exists(args.save):
         os.makedirs(args.save)
 
     pool = multiprocessing.Pool(processes=args.proc)
     for f in files:
-        pool.apply_async(func=args.func, args=(args.arch, f, args.src, args.save))
+        pool.apply_async(func=args.func, args=(args.arch, f, args.input, args.save))
     
     pool.close()
     pool.join()

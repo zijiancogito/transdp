@@ -58,13 +58,14 @@ def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir,
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='get_maps.py')
     parser.add_argument('-o', '--save', type=str, default='../', help='root path to save the results')
+    parser.add_argument('-s', '--src', type=str, default='../', help='path to source code')
     parser.add_argument('-j', '--proc', type=int, default=28, help='number of processing')
-    parser.add_argument('-M', '--arch', type=str, default='x86', choices=['x86', 'aarch64'],help='')
+    parser.add_argument('-M', '--arch', type=str, default='x64', choices=['x64', 'aarch64'],help='')
     args = parser.parse_args()
 
     ir_dir = os.path.join(args.save, 'gtirb')
     bin_dir = os.path.join(args.save, 'bin')
-    src_dir = os.path.join(args.save, 'src')
+    src_dir = args.src
     asm_dir = os.path.join(args.save, 'asm_list')
     src_list_dir = os.path.join(args.save, 'src_list')
     map_dir = os.path.join(args.save, 'map')
