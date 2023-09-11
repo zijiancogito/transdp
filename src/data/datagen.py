@@ -62,7 +62,6 @@ def batch(count, save_dir, proc=28, level=3):
         save_path = os.path.join(save_dir, f"{i}.c")
         #print(save_path)
         result = pool.apply_async(func=generator, args=(config, save_path))
-        print(result.get(timeout=1))
         # generator(config, save_path)
 
     pool.close()
