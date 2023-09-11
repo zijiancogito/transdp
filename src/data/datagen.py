@@ -57,7 +57,7 @@ def batch(count, save_dir, proc=28, level=3):
     config = Config()
     pool = multiprocessing.Pool(processes=proc)
     args = [(config, os.path.join(save_dir, f"{i}.c")) for i in range(count)]
-    pool.starmap_async(generator, args, 1000)
+    pool.starmap(generator, args, 1000)
     # for i in range(count):
         # save_path = os.path.join(save_dir, f"{i}.c")
         #print(save_path)

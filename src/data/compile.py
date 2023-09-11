@@ -45,8 +45,10 @@ if __name__ == '__main__':
         os.makedirs(args.save)
 
     pool = multiprocessing.Pool(processes=args.proc)
-    for f in files:
-        pool.apply_async(func=args.func, args=(args.arch, f, args.input, args.save))
+    args = [(args.arch, f, args.input, args.save) for f in files]
+    pool.starmap(args.func, args, 1000)
+    # for f in files:
+        # pool.apply_async(func=args.func, args=(args.arch, f, args.input, args.save))
     
     pool.close()
     pool.join()
