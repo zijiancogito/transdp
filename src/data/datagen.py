@@ -55,14 +55,15 @@ def batch(count, save_dir, proc=28, level=3):
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
     config = Config()
-    pool = multiprocessing.Pool(processes=proc)
+    # pool = multiprocessing.Pool(processes=proc)
     for i in range(count):
         save_path = os.path.join(save_dir, f"{i}.c")
         print(save_path)
-        pool.apply_async(func=generator, args=(config, save_path))
+        # pool.apply_async(func=generator, args=(config, save_path))
+        generator(config, save_path)
 
-    pool.close()
-    pool.join()
+    # pool.close()
+    # pool.join()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='source_gen.py')
