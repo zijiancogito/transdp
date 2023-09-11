@@ -57,8 +57,8 @@ def batch(count, save_dir, proc=28, level=3):
     config = Config()
     pool = multiprocessing.Pool(processes=proc)
     # for i in range(count):
-    args = [(config, os.path.join(save_dir, f"{i}.c")) for i in range(count)]
-    pool.map(generator, args, 1000)
+    args = [(config, os.path.join(save_dir, f"{i}.c"), 1000) for i in range(count)]
+    pool.map(generator, args)
         # save_path = os.path.join(save_dir, f"{i}.c")
         #print(save_path)
         # pool.apply_async(func=generator, args=(config, save_path))
