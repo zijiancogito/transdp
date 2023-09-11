@@ -46,8 +46,8 @@ if __name__ == '__main__':
 
     print(args.func)
     pool = multiprocessing.Pool(processes=args.proc)
-    args = [(args.arch, f, args.input, args.save) for f in files]
-    pool.starmap(args.func, args, 10000)
+    iter = [(args.arch, f, args.input, args.save) for f in files]
+    pool.starmap(args.func, iter, 10000)
     # for f in files:
         # pool.apply_async(func=args.func, args=(args.arch, f, args.input, args.save))
     
