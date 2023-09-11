@@ -44,6 +44,7 @@ if __name__ == '__main__':
     if not os.path.exists(args.save):
         os.makedirs(args.save)
 
+    print(args.func)
     pool = multiprocessing.Pool(processes=args.proc)
     args = [(args.arch, f, args.input, args.save) for f in files]
     pool.starmap(args.func, args, 10000)
