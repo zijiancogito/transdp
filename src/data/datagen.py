@@ -13,8 +13,8 @@ class Config:
         self.max_funcs = 1
         self.max_args = 0
         self.min_args = 0
-        self.max_block_size=5,
-        self.min_block_size=3,
+        self.max_block_size=5
+        self.min_block_size=3
         self.max_block_depth = 2
         self.max_branch = 10
         self.max_expr_complexity = 3
