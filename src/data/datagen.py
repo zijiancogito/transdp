@@ -60,7 +60,7 @@ def batch(count, save_dir, proc=28, level=3):
     args = [(config, os.path.join(save_dir, f"{i}.c")) for i in range(count)]
         #print(save_path)
     # pool.apply_async(func=generator, args=(config, save_path))
-    pool.starmap(generator, args)
+    pool.imap(generator, args, 10000)
         # generator(config, save_path)
 
     pool.close()
