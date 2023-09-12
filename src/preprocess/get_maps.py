@@ -98,5 +98,5 @@ if __name__ == '__main__':
     pool.join()
 
     end = time.time()
-    print(f"Process {len(files)} files.\nTime: {(end-start)/60} Mins.\nProcs: {args.proc}.")
+    print(f"Process {len(files)} files.\nTime: {round((end-start)/3600, 2)} Hours.\nProcs: {args.proc}.")
 
