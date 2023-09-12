@@ -25,9 +25,14 @@
     python3 compile.py -o /root/data/aarch64/bin -j 20 -i /root/data/src -M aarch64 compile
     python3 compile.py -o /root/data/aarch64/ir -j 20 -i /root/data/aarch64/bin -M aarch64 disasm
     
+    # MIPS64 
+    python3 compile.py -o /root/data/mips64/bin -j 20 -i /root/data/src -M mips64 compile
+    python3 compile.py -o /root/data/mips64/ir -j 20 -i /root/data/mips64/bin -M mips64 disasm
+
     cd ../preprocess
     python3 get_maps.py -o /root/data/x64 -s /root/data/src -j 20 -M x64
     python3 get_maps.py -o /root/data/aarch64 -s /root/data/src -j 20 -M aarch64
+    python3 get_maps.py -o /root/data/mips64 -s /root/data/src -j 20 -M mips64
 
 ```
 
