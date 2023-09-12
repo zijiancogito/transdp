@@ -60,7 +60,7 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--save', type=str, default='../', help='root path to save the results')
     parser.add_argument('-s', '--src', type=str, default='../', help='path to source code')
     parser.add_argument('-j', '--proc', type=int, default=28, help='number of processing')
-    parser.add_argument('-M', '--arch', type=str, default='x64', choices=['x64', 'aarch64'],help='')
+    parser.add_argument('-M', '--arch', type=str, default='x64', choices=['x64', 'aarch64', 'mips64'],help='')
     args = parser.parse_args()
 
     ir_dir = os.path.join(args.save, 'gtirb')

@@ -12,6 +12,8 @@ def compile(arch, filename, d, t):
         cc = 'gcc'
     elif arch == 'aarch64':
         cc = 'aarch64-linux-gnu-gcc'
+    elif arch == 'mips64':
+        cc = 'mips64-linux-gnuabi64-gcc'
     else:
         raise NotImplemented
     cmd = f"{cc} -O0 -fno-inline-functions -g {src} -o {obj}"
@@ -28,7 +30,7 @@ if __name__ == '__main__':
     parser.add_argument('-j', '--proc', type=int, default=16, help='number of processing')
     parser.add_argument('-o', '--save', type=str, default='../', help='root path to save the results')
     parser.add_argument('-i', '--input', type=str, default='../', help='path to source code')
-    parser.add_argument('-M', '--arch', type=str, default='x64', choices=['x64', 'aarch64'],help='path to source code')
+    parser.add_argument('-M', '--arch', type=str, default='x64', choices=['x64', 'aarch64', 'mips64'], help='path to source code')
 
 
     subparser = parser.add_subparsers(help='sub-command help')
