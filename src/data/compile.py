@@ -17,7 +17,7 @@ def compile(arch, filename, d, t):
     cmd = f"{cc} -O0 -fno-inline-functions -g {src} -o {obj}"
     os.system(cmd)
 
-def ddisasm(filename, d, t):
+def ddisasm(aarch, filename, d, t):
     obj = os.path.join(d, filename)
     ir = os.path.join(t, f"{filename.split('.')[0]}.gtirb")
     cmd = f"ddisasm {obj} --ir {ir} > /dev/null 2>&1"
@@ -44,7 +44,6 @@ if __name__ == '__main__':
     if not os.path.exists(args.save):
         os.makedirs(args.save)
 
-    print(args.func)
     pool = multiprocessing.Pool(processes=args.proc)
     iter = [(args.arch, f, args.input, args.save) for f in files]
     pool.starmap(args.func, iter, 10000)
