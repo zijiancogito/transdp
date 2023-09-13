@@ -33,6 +33,8 @@ def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir,
             
     _, line_map, _ = elf_parser.parse_dwarf(bin_p)
     print(line_map)
+    import pdb
+    pdb.set_trace()
 
     maps = src_map.map_src_vs_asm(src_list_p, asm_p, line_map)
     # map_asm = os.path.join(map_dir, f"{bname}.asm")
@@ -85,7 +87,16 @@ if __name__ == '__main__':
     files = os.listdir(ir_dir)
     start = time.time()
     pool = multiprocessing.Pool(processes=args.proc)
-    # for f in files:
+    for f in files:
+        process_file(args.arch, 
+                                                  f, 
+                                                  ir_dir,
+                                                  bin_dir,
+                                                  src_dir,
+                                                  asm_dir,
+                                                  src_list_dir,
+                                                  map_dir,
+                                                  pd_dir)
         # pool.apply_async(func=process_file, args=(args.arch, 
                                                   # f, 
                                                   # ir_dir,
@@ -95,9 +106,9 @@ if __name__ == '__main__':
                                                   # src_list_dir,
                                                   # map_dir,
                                                   # pd_dir))
-    iter = [(args.arch, f, ir_dir, bin_dir, src_dir, asm_dir, src_list_dir,
-             map_dir, pd_dir) for f in files]
-    pool.starmap(process_file, iter, 10000)
+    # iter = [(args.arch, f, ir_dir, bin_dir, src_dir, asm_dir, src_list_dir,
+             # map_dir, pd_dir) for f in files]
+    # pool.starmap(process_file, iter, 10000)
     
     pool.close()
     pool.join()
