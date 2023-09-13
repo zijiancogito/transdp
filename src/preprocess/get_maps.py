@@ -83,16 +83,19 @@ if __name__ == '__main__':
     files = os.listdir(ir_dir)
     start = time.time()
     pool = multiprocessing.Pool(processes=args.proc)
-    for f in files:
-        pool.apply_async(func=process_file, args=(args.arch, 
-                                                  f, 
-                                                  ir_dir,
-                                                  bin_dir,
-                                                  src_dir,
-                                                  asm_dir,
-                                                  src_list_dir,
-                                                  map_dir,
-                                                  pd_dir))
+    # for f in files:
+        # pool.apply_async(func=process_file, args=(args.arch, 
+                                                  # f, 
+                                                  # ir_dir,
+                                                  # bin_dir,
+                                                  # src_dir,
+                                                  # asm_dir,
+                                                  # src_list_dir,
+                                                  # map_dir,
+                                                  # pd_dir))
+    iter = [(args.arch, f, ir_dir, bin_dir, src_dir, asm_dir, src_list_dir,
+             map_dir, pd_dir) for f in files]
+    pool.starmap(args.process_file, iter, 10000)
     
     pool.close()
     pool.join()
