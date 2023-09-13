@@ -63,7 +63,7 @@ if __name__ == '__main__':
     parser.add_argument('-M', '--arch', type=str, default='x64', choices=['x64', 'aarch64', 'mips64'],help='')
     args = parser.parse_args()
 
-    ir_dir = os.path.join(args.save, 'gtirb')
+    ir_dir = os.path.join(args.save, 'ir')
     bin_dir = os.path.join(args.save, 'bin')
     src_dir = args.src
     asm_dir = os.path.join(args.save, 'asm_list')
