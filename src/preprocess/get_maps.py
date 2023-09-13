@@ -32,6 +32,7 @@ def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir,
             f.write(f"{line}:\t{src_lines[line]}")
             
     _, line_map, _ = elf_parser.parse_dwarf(bin_p)
+    print(line_map)
 
     maps = src_map.map_src_vs_asm(src_list_p, asm_p, line_map)
     # map_asm = os.path.join(map_dir, f"{bname}.asm")
@@ -49,6 +50,7 @@ def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir,
     pd_f = os.path.join(pd_dir, f"{bname}.csv")
     df = pd.DataFrame(columns=['input', 'target'])
     for key in maps:
+        print(key)
         col1 = key[0].strip()
         col2 = ' ; '.join(key[1])
         df.add([col1, col2])
