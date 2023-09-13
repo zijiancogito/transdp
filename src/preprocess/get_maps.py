@@ -95,7 +95,7 @@ if __name__ == '__main__':
                                                   # pd_dir))
     iter = [(args.arch, f, ir_dir, bin_dir, src_dir, asm_dir, src_list_dir,
              map_dir, pd_dir) for f in files]
-    pool.starmap(args.process_file, iter, 10000)
+    pool.starmap(process_file, iter, 10000)
     
     pool.close()
     pool.join()
