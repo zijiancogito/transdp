@@ -32,6 +32,8 @@ def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir,
             f.write(f"{line}:\t{src_lines[line]}")
             
     _, line_map, _ = elf_parser.parse_dwarf(bin_p)
+    for k in line_map:
+        print(k)
     print(line_map)
 
     import pdb
