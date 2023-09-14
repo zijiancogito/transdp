@@ -39,6 +39,7 @@ def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir,
     # import pdb
     # pdb.set_trace()
     maps = src_map.map_src_vs_asm(src_list_p, asm_p, line_map)
+    print(maps)
     # map_asm = os.path.join(map_dir, f"{bname}.asm")
     # map_src = os.path.join(map_dir, f"{bname}.c")
     # asm_f = open(map_asm, 'w')
