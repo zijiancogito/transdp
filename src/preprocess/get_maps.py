@@ -39,9 +39,6 @@ def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir,
     # import pdb
     # pdb.set_trace()
     maps = src_map.map_src_vs_asm(src_list_p, asm_p, line_map)
-    print(maps)
-    import pdb
-    pdb.set_trace()
     # map_asm = os.path.join(map_dir, f"{bname}.asm")
     # map_src = os.path.join(map_dir, f"{bname}.c")
     # asm_f = open(map_asm, 'w')
@@ -60,6 +57,8 @@ def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir,
         # print(key)
         col1 = key[0].strip()
         col2 = ' ; '.join(key[1])
+        print(col1)
+        print(col2)
         df.add([col1, col2])
     df.to_csv(pd_f, index=True, header=True, sep='\t')
 
@@ -92,16 +91,16 @@ if __name__ == '__main__':
     files = os.listdir(ir_dir)
     start = time.time()
     pool = multiprocessing.Pool(processes=args.proc)
-    # for f in files:
-        # process_file(args.arch, 
-                                                  # f, 
-                                                  # ir_dir,
-                                                  # bin_dir,
-                                                  # src_dir,
-                                                  # asm_dir,
-                                                  # src_list_dir,
-                                                  # map_dir,
-                                                  # pd_dir)
+    for f in files:
+        process_file(args.arch, 
+                                                  f, 
+                                                  ir_dir,
+                                                  bin_dir,
+                                                  src_dir,
+                                                  asm_dir,
+                                                  src_list_dir,
+                                                  map_dir,
+                                                  pd_dir)
         # pool.apply_async(func=process_file, args=(args.arch, 
                                                   # f, 
                                                   # ir_dir,
@@ -111,9 +110,9 @@ if __name__ == '__main__':
                                                   # src_list_dir,
                                                   # map_dir,
                                                   # pd_dir))
-    iter = [(args.arch, f, ir_dir, bin_dir, src_dir, asm_dir, src_list_dir,
-             map_dir, pd_dir) for f in files]
-    pool.starmap(process_file, iter, 10000)
+    # iter = [(args.arch, f, ir_dir, bin_dir, src_dir, asm_dir, src_list_dir,
+             # map_dir, pd_dir) for f in files]
+    # pool.starmap(process_file, iter, 10000)
     
     pool.close()
     pool.join()
