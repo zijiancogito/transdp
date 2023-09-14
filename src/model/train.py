@@ -8,11 +8,11 @@ import evaluate
 import numpy as np
 
 
-def train(data_dir, model_dir):
+def train(data_dir, model_dir, num_proc=20):
     
     # Load dataset
-    data_files = os.listdir(data_dir)
-    dataset = load_dataset('csv', data_files=data_files)
+    data_files = [os.path.join(data_dir, sub_dir) for sub_dir in os.listdir(data_dir)]
+    dataset = load_dataset('csv', data_files=data_files, num_proc=num_proc)
     print(dataset[0])
     return
     dataset.train_test_split(test_size=0.2)
@@ -91,4 +91,4 @@ def train(data_dir, model_dir):
     
 if __name__ == '__main__':
     train('/root/data/aarch64/csv',
-          '/root/mode/aarch64')
+          '/root/model/aarch64')
