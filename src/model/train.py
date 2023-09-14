@@ -90,5 +90,5 @@ def train(data_dir, model_dir):
 
     
 if __name__ == '__main__':
-    train('/home/caoy/tf/data/transdata/csv',
-          '/home/caoy/tf/data/transmodel')
+    train('/root/data/aarch64/csv',
+          '/root/mode/aarch64')
