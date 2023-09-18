@@ -58,7 +58,7 @@ def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir,
         # print(key)
         col1 = key[0].strip()
         col2 = ' ; '.join(key[1])
-        df.loc[idx] = [col1, col2]
+        df.loc[idx] = [col2, col1]
         # df.add([col1, col2])
     df.to_csv(pd_f, index=True, header=True, sep='\t')
     # import pdb

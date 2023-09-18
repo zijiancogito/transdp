@@ -12,20 +12,31 @@ def train(data_dir, model_dir, num_proc=20):
     
     # Load dataset
     data_files = [os.path.join(data_dir, sub_dir) for sub_dir in os.listdir(data_dir)]
-    dataset = load_dataset('csv', data_files=data_files, num_proc=num_proc)
-    print(dataset[0])
-    return
-    dataset.train_test_split(test_size=0.2)
+    dataset = load_dataset('csv', 
+                            data_files=data_files, 
+                            delimiter='\t',
+                            column_names=['input', 'target'],
+                            skiprows=1,
+                            num_proc=num_proc,
+                            split='train').train_test_split(test_size=0.2)
+
+    # print(dataset['train'][0])
+    # return
+    # data = dataset.train_test_split(test_size=0.2)
+    print(dataset['train'][0])
+    print(dataset['test'][0])
     
     checkpoint = "t5-small"
+
     tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+    import pdb
     def preprocess_function(examples):
-        source_lang = "input"
-        target_lang = "target"
+        source_lang = "target"
+        target_lang = "input"
         prefix = "translate Assembly to C: "
-        inputs = [prefix + example[source_lang] for example in examples]
-        targets = [example[target_lang] for example in examples]
-        model_inputs = tokenizer(inputs, text_target=targets, max_length=128, trunction=True)
+        # inputs = [prefix + example[source_lang] for example in examples]
+        # targets = [example[target_lang] for example in examples]
+        model_inputs = tokenizer(examples[source_lang], text_target=examples[target_lang], max_length=128, truncation=True)
         return model_inputs
     
     tokenized_data = dataset.map(preprocess_function, batched=True)
@@ -49,7 +60,7 @@ def train(data_dir, model_dir, num_proc=20):
         labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
         decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
 
-        decoded_preds, decode_labels = postprocess_test(decoded_preds, decoded_labels)
+        decoded_preds, decode_labels = postprocess_text(decoded_preds, decoded_labels)
         
         result = metric.compute(predictions=decoded_preds, references=decoded_labels)
         result = {"bleu": result["score"]}
@@ -73,7 +84,7 @@ def train(data_dir, model_dir, num_proc=20):
         num_train_epochs=2,
         predict_with_generate=True,
         fp16=True,
-        push_to_hub=True,
+        push_to_hub=False,
     )
 
     trainer = Seq2SeqTrainer(
@@ -83,7 +94,7 @@ def train(data_dir, model_dir, num_proc=20):
         eval_dataset=tokenized_data["test"],
         tokenizer=tokenizer,
         data_collator=data_collator,
-        compute_metrics=compute_metrics,
+        compute_metrics=compute_metric,
     )
     
     trainer.train()
