@@ -5,13 +5,35 @@ import argparse
 import multiprocessing
 import numpy as np
 import pandas as pd
+import re
 
 sys.path.append('./dwarfinfo')
 
 import elf_parser
 import src_map
 
-def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir, map_dir, pd_dir):
+
+def normlize_asm_aarch64(s):
+    s = re.sub('\[[^\]]+\]', 'MEM', s, 100)
+    s = re.sub('\#0x[0-9a-fA-F]+', 'IMM', s, 100)
+    s = re.sub('\#[0-9]+\.[0-9]+', 'FLOAT', s, 100)
+    s = re.sub('\#[0-9]+', 'IMM', s, 100)
+    return s
+
+def normlize_asm_x64(s):
+    s = re.sub('\[[^\]]+\]', 'MEM', s, 100)
+    s = re.sub('0x[0-9a-fA-F]+', 'IMM', s, 100)
+    s = re.sub(' [0-9]+ ', ' IMM ', s, 100)
+    return s
+
+def normlize_src(s):
+    s = re.sub('v[0-9]+', 'MEM', s, 100)
+    s = re.sub('\(MEM\)', 'MEM', s, 100)
+    s = re.sub('[0-9]+', 'IMM', s, 100)
+    s = re.sub('\(IMM\)', 'IMM', s, 100)
+    return s
+
+def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir, map_dir, pd_dir, norm=1):
     ir_p = os.path.join(ir_dir, ir)
     bname = ir.split('.')[0]
 
@@ -56,8 +78,19 @@ def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir,
     df = pd.DataFrame(columns=['input', 'target'])
     for idx, key in enumerate(maps):
         # print(key)
-        col1 = key[0].strip()
-        col2 = ' ; '.join(key[1])
+        col1 = re.sub(r'\([\s]*(int|float|double)[\s]*\)', '', key[0].strip(), 100)
+        if norm == 1:
+            col1 = normlize_src(col1)
+        col2 = None
+        if norm == 1:
+            if arch == 'aarch64':
+                col2 = ' ; '.join([normlize_asm_aarch64(i) for i in key[1]])
+            elif arch == 'x64':
+                col2 = ' ; '.join([normlize_asm_x64(i) for i in key[1]])
+            else:
+                raise NotImplementedError
+        else:
+            col2 = ' ; '.join(key[1])
         df.loc[idx] = [col2, col1]
         # df.add([col1, col2])
     df.to_csv(pd_f, index=True, header=True, sep='\t')
@@ -71,6 +104,7 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--src', type=str, default='../', help='path to source code')
     parser.add_argument('-j', '--proc', type=int, default=28, help='number of processing')
     parser.add_argument('-M', '--arch', type=str, default='x64', choices=['x64', 'aarch64', 'mips64'],help='')
+    parser.add_argument('-n', '--norm', type=int, default=1, choices=[0, 1],help='')
     args = parser.parse_args()
 
     ir_dir = os.path.join(args.save, 'ir')
@@ -113,7 +147,7 @@ if __name__ == '__main__':
                                                   # map_dir,
                                                   # pd_dir))
     iter = [(args.arch, f, ir_dir, bin_dir, src_dir, asm_dir, src_list_dir,
-             map_dir, pd_dir) for f in files]
+             map_dir, pd_dir, args.norm) for f in files]
     pool.starmap(process_file, iter, 10000)
     
     pool.close()
