@@ -29,6 +29,6 @@ import os
 
 _DATA_DIR = '/root/data/aarch64/csv'
 
-_DATASETS = [
-    os.path.join(_DATA_DIR, f) for f in os.listdir(_DATA_DIR)
-]
+_DATASETS = [os.path.join(_DATA_DIR, f) for f in os.listdir(_DATA_DIR)]
+
+@registry.registry_problem
