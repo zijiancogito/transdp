@@ -127,8 +127,6 @@ if __name__ == '__main__':
     else:
         raise NotImplementedError
 
-
-
     if not os.path.exists(asm_dir):
         os.makedirs(asm_dir)
     if not os.path.exists(src_list_dir):
