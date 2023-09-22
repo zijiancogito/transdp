@@ -47,5 +47,7 @@
     # no norm
     python3 get_maps.py -o /root/data/x64 -s /root/data/src -j 20 -M x64 -sn 0 -cn 0
     python3 get_maps.py -o /root/data/aarch64 -s /root/data/src -j 20 -M aarch64 -sn 0 -cn 0
+
+    
 ```
 
