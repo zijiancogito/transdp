@@ -30,9 +30,22 @@
     python3 compile.py -o /root/data/mips64/ir -j 20 -i /root/data/mips64/bin -M mips64 disasm
 
     cd ../preprocess
-    python3 get_maps.py -o /root/data/x64 -s /root/data/src -j 20 -M x64 -n 1
-    python3 get_maps.py -o /root/data/aarch64 -s /root/data/src -j 20 -M aarch64 -n 1
+
+    # norm asm and src
+    python3 get_maps.py -o /root/data/x64 -s /root/data/src -j 20 -M x64 -sn 1 -cn 1
+    python3 get_maps.py -o /root/data/aarch64 -s /root/data/src -j 20 -M aarch64 -sn 1 -cn 1
     python3 get_maps.py -o /root/data/mips64 -s /root/data/src -j 20 -M mips64
 
+    # only norm asm
+    python3 get_maps.py -o /root/data/x64 -s /root/data/src -j 20 -M x64 -sn 1 -cn 0
+    python3 get_maps.py -o /root/data/aarch64 -s /root/data/src -j 20 -M aarch64 -sn 1 -cn 0
+
+    # only norm src
+    python3 get_maps.py -o /root/data/x64 -s /root/data/src -j 20 -M x64 -sn 0 -cn 1
+    python3 get_maps.py -o /root/data/aarch64 -s /root/data/src -j 20 -M aarch64 -sn 0 -cn 1
+
+    # no norm
+    python3 get_maps.py -o /root/data/x64 -s /root/data/src -j 20 -M x64 -sn 0 -cn 0
+    python3 get_maps.py -o /root/data/aarch64 -s /root/data/src -j 20 -M aarch64 -sn 0 -cn 0
 ```
 
