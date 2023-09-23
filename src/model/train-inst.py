@@ -12,7 +12,6 @@ def train(data_dir, model_dir, num_proc=20):
     
     # Load dataset
     data_files = [os.path.join(data_dir, sub_dir) for sub_dir in os.listdir(data_dir)]
-    data_files = data_files[0:200000]
     dataset = load_dataset('csv', 
                             data_files=data_files, 
                             delimiter='\t',
@@ -30,7 +29,8 @@ def train(data_dir, model_dir, num_proc=20):
     
     checkpoint = "t5-small"
 
-    tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+    # tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+    tokenizer = lambda x: x.split(' ; ')
     import pdb
     def preprocess_function(examples):
         source_lang = "input"
@@ -103,15 +103,9 @@ def train(data_dir, model_dir, num_proc=20):
 
     
 if __name__ == '__main__':
-    train('/root/data/x64/csv',
-          '/root/model/x64-norm-all')
+    train('/root/data/aarch64/csv',
+          '/root/model/aarch64')
 
 # {'eval_loss': 0.19186386466026306, 'eval_bleu': 58.7168, 'eval_gen_len': 13.5775, 'eval_runtime': 9640.1935, 'eval_samples_per_second': 906.116, 'eval_steps_per_second': 1.77, 'epoch': 2.0} aarch64
 
 # {'eval_loss': 0.2583463191986084, 'eval_bleu': 59.9352, 'eval_gen_len': 12.1518, 'eval_runtime': 8876.0422, 'eval_samples_per_second': 984.125, 'eval_steps_per_second': 1.922, 'epoch': 2.0} 
-
-# aarch64 norm all with out inst emb
-#{'eval_loss': 0.056397534906864166, 'eval_bleu': 86.8677, 'eval_gen_len': 11.0137, 'eval_runtime': 8736.5132, 'eval_samples_per_second': 999.842, 'eval_steps_per_second': 1.953, 'epoch': 2.0}                                                                                                            
-# {'train_runtime': 69938.7887, 'train_samples_per_second': 999.174, 'train_steps_per_second': 1.952, 'train_loss': 0.06497675813129698, 'epoch': 2.0} 
-
-# x64 norm all with out inst emb 
