@@ -26,6 +26,13 @@ def normlize_asm_x64(s):
     s = re.sub(' [0-9]+ ', ' IMM ', s, 100)
     return s
 
+def normlize_asm_mips(s):
+    s = re.sub('[\-]*0x[0-9a-fA-F]+\([\S]+\)', 'MEM', s, 100)
+    s = re.sub('[\-]*\([\S]+\)', 'MEM', s, 100)
+    s = re.sub('[\-]*0x[0-9a-fA-F]+', 'IMM', s, 100)
+    s = re.sub('\$[0-9]+', ' IMM ', s, 100)
+    return s
+
 def normlize_src(s):
     s = re.sub('v[0-9]+', 'MEM', s, 100)
     s = re.sub('\(MEM\)', 'MEM', s, 100)
@@ -53,7 +60,7 @@ def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir,
         for line in src_lines:
             f.write(f"{line}:\t{src_lines[line]}")
             
-    _, line_map, _ = elf_parser.parse_dwarf(bin_p)
+    _, line_map, _ = elf_parser.parse_dwarf(bin_p, arch)
     # for k in line_map:
         # print(k)
     # print(line_map)
@@ -87,6 +94,8 @@ def process_file(arch, ir, ir_dir, bin_dir, src_dir, asm_list_dir, src_list_dir,
                 col2 = ' ; '.join([normlize_asm_aarch64(i) for i in key[1]])
             elif arch == 'x64':
                 col2 = ' ; '.join([normlize_asm_x64(i) for i in key[1]])
+            elif arch == 'mips':
+                col2 = ' ; '.join([normlize_asm_mips(i) for i in key[1]])
             else:
                 raise NotImplementedError
         else:
@@ -103,7 +112,7 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--save', type=str, default='../', help='root path to save the results')
     parser.add_argument('-s', '--src', type=str, default='../', help='path to source code')
     parser.add_argument('-j', '--proc', type=int, default=28, help='number of processing')
-    parser.add_argument('-M', '--arch', type=str, default='x64', choices=['x64', 'aarch64', 'mips64'],help='')
+    parser.add_argument('-M', '--arch', type=str, default='x64', choices=['x64', 'aarch64', 'mips'],help='')
     parser.add_argument('-sn', '--asm-norm', type=int, default=1, choices=[0, 1],help='')
     parser.add_argument('-cn', '--src-norm', type=int, default=1, choices=[0, 1],help='')
 

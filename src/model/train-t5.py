@@ -12,7 +12,7 @@ def train(data_dir, model_dir, num_proc=20):
     
     # Load dataset
     data_files = [os.path.join(data_dir, sub_dir) for sub_dir in os.listdir(data_dir)]
-    data_files = data_files[0:200000]
+    data_files = data_files[0:100000]
     dataset = load_dataset('csv', 
                             data_files=data_files, 
                             delimiter='\t',
@@ -103,8 +103,8 @@ def train(data_dir, model_dir, num_proc=20):
 
     
 if __name__ == '__main__':
-    train('/root/data/x64/csv-src',
-          '/root/model/x64-norm-src')
+    train('/root/data/mips/csv-src',
+          '/root/model/mips-norm-src')
 
 # {'eval_loss': 0.19186386466026306, 'eval_bleu': 58.7168, 'eval_gen_len': 13.5775, 'eval_runtime': 9640.1935, 'eval_samples_per_second': 906.116, 'eval_steps_per_second': 1.77, 'epoch': 2.0} aarch64
 
@@ -125,9 +125,10 @@ if __name__ == '__main__':
 
 
 # x64 norm src
-
+# {'eval_loss': 0.05873624607920647, 'eval_bleu': 91.6471, 'eval_gen_len': 11.3392, 'eval_runtime': 3614.4158, 'eval_samples_per_second': 966.699, 'eval_steps_per_second': 1.888, 'epoch': 1.0} 
 
 # aarch64 norm src
 # 'eval_loss': 0.05211639031767845, 'eval_bleu': 89.3345, 'eval_gen_len': 11.2891, 'eval_runtime': 3479.4367, 'eval_samples_per_second': 1004.104, 'eval_steps_per_second': 1.961, 'epoch': 2.0}                                                       
 # {'train_runtime': 28074.4181, 'train_samples_per_second': 995.559, 'train_steps_per_second': 1.944, 'train_loss': 0.07406730816944722, 'epoch': 2.0} 
 
+# mips norm src
