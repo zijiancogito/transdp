@@ -62,7 +62,7 @@ def train(data_dir, model_dir, num_proc=20):
         labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
         decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
 
-        decoded_preds, decode_labels = postprocess_text(decoded_preds, decoded_labels)
+        decoded_preds, decoded_labels = postprocess_text(decoded_preds, decoded_labels)
         
         result = metric.compute(predictions=decoded_preds, references=decoded_labels)
         result = {"bleu": result["score"]}
@@ -103,8 +103,8 @@ def train(data_dir, model_dir, num_proc=20):
 
     
 if __name__ == '__main__':
-    train('/root/data/x64/csv',
-          '/root/model/x64-norm-all')
+    train('/root/data/x64/csv-src',
+          '/root/model/x64-norm-src')
 
 # {'eval_loss': 0.19186386466026306, 'eval_bleu': 58.7168, 'eval_gen_len': 13.5775, 'eval_runtime': 9640.1935, 'eval_samples_per_second': 906.116, 'eval_steps_per_second': 1.77, 'epoch': 2.0} aarch64
 
@@ -115,3 +115,19 @@ if __name__ == '__main__':
 # {'train_runtime': 69938.7887, 'train_samples_per_second': 999.174, 'train_steps_per_second': 1.952, 'train_loss': 0.06497675813129698, 'epoch': 2.0} 
 
 # x64 norm all with out inst emb 
+# {'eval_loss': 0.05804423615336418, 'eval_bleu': 90.1805, 'eval_gen_len': 11.6534, 'eval_runtime': 8734.6852, 'eval_samples_per_second': 1000.147, 'eval_steps_per_second': 1.953, 'epoch': 1.0}     
+
+# x64 norm asm 
+# {'eval_loss': 0.3170093894004822, 'eval_bleu': 56.0844, 'eval_gen_len': 11.9852, 'eval_runtime': 3534.8417, 'eval_samples_per_second': 988.461, 'eval_steps_per_second': 1.931, 'epoch': 2.0}  
+
+# aarch64 norm asm
+# {'eval_loss': 0.3480462431907654, 'eval_bleu': 49.494, 'eval_gen_len': 11.9248, 'eval_runtime': 3518.0866, 'eval_samples_per_second': 993.073, 'eval_steps_per_second': 1.94, 'epoch': 1.0}
+
+
+# x64 norm src
+
+
+# aarch64 norm src
+# 'eval_loss': 0.05211639031767845, 'eval_bleu': 89.3345, 'eval_gen_len': 11.2891, 'eval_runtime': 3479.4367, 'eval_samples_per_second': 1004.104, 'eval_steps_per_second': 1.961, 'epoch': 2.0}                                                       
+# {'train_runtime': 28074.4181, 'train_samples_per_second': 995.559, 'train_steps_per_second': 1.944, 'train_loss': 0.07406730816944722, 'epoch': 2.0} 
+

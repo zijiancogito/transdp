@@ -48,5 +48,15 @@
     python3 get_maps.py -o /root/data/x64 -s /root/data/src -j 20 -M x64 -sn 0 -cn 0
     python3 get_maps.py -o /root/data/aarch64 -s /root/data/src -j 20 -M aarch64 -sn 0 -cn 0
     
+    
 ```
 
+
+```
+    cd ./preprocess
+
+    # aarch64
+    python3 eval_ds.py -i /root/data/aarch64/csv -o /root/data/aarch64/eval -n 1000
+    # x64
+    python3 eval_ds.py -i /root/data/x64/csv -o /root/data/x64/eval -n 1000
+```

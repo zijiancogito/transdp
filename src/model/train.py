@@ -17,4 +17,5 @@ def train(data_dir, model_dir, num_proc=20):
                             skiprows=1,
                             num_proc=num_proc,
                             split='train').train_test_split(test_size=0.2)
-    tokenizer = lambda x: re.split('')
+    
+    
