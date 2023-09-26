@@ -12,7 +12,7 @@ def train(data_dir, model_dir, num_proc=20):
     
     # Load dataset
     data_files = [os.path.join(data_dir, sub_dir) for sub_dir in os.listdir(data_dir)]
-    data_files = data_files[0:100000]
+    data_files = data_files[100000:500000]
     dataset = load_dataset('csv', 
                             data_files=data_files, 
                             delimiter='\t',
@@ -28,7 +28,8 @@ def train(data_dir, model_dir, num_proc=20):
     print(dataset['test'][0])
     # return
     
-    checkpoint = "t5-small"
+    # checkpoint = "t5-small"
+    checkpoint = "/root/model/mips-norm-src/checkpoint-17500"
 
     tokenizer = AutoTokenizer.from_pretrained(checkpoint)
     import pdb
@@ -132,3 +133,12 @@ if __name__ == '__main__':
 # {'train_runtime': 28074.4181, 'train_samples_per_second': 995.559, 'train_steps_per_second': 1.944, 'train_loss': 0.07406730816944722, 'epoch': 2.0} 
 
 # mips norm src
+# {'eval_loss': 0.09423783421516418, 'eval_bleu': 86.3538, 'eval_gen_len': 10.6873, 'eval_runtime': 1152.5712, 'eval_samples_per_second': 977.672, 'eval_steps_per_second': 1.91, 'epoch': 1.0} 
+
+# mips norm asm
+# {'eval_loss': 0.258343368768692, 'eval_bleu': 61.5423, 'eval_gen_len': 10.4583, 'eval_runtime': 1693.4488, 'eval_samples_per_second': 665.409, 'eval_steps_per_second': 5.199, 'epoch': 2.0}
+
+# mips norm all
+# {'eval_loss': 0.01045856773853302, 'eval_bleu': 94.1386, 'eval_gen_len': 10.3489, 'eval_runtime': 1934.2212, 'eval_samples_per_second': 1165.32, 'eval_steps_per_second': 2.276, 'epoch': 2.0}
+
+# mips norm no

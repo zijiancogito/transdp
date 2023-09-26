@@ -2,6 +2,8 @@ import os
 import csv
 import argparse
 import pandas as pd
+import time
+from tqdm import tqdm
 
 def trans_stmt_to_function(stmt_csv, out_csv):
     with open(stmt_csv, 'r') as fp:
@@ -9,7 +11,7 @@ def trans_stmt_to_function(stmt_csv, out_csv):
         inputs = []
         outputs = []
         for line in alls:
-            l = line.split('\n')
+            l = line.split('\t')
             inputs.append(l[1])
             outputs.append(l[2])
         df = pd.DataFrame(columns=['input', 'target'])
@@ -22,7 +24,7 @@ def window(stmt_csv, out_csv):
         inputs = []
         outputs = []
         for line in alls:
-            l = line.split('\n')
+            l = line.split('\t')
             inputs.extend(l[1].split(' ; '))
             outputs.append(l[2])
         new_inputs = []
@@ -49,7 +51,8 @@ if __name__ == '__main__':
     if not os.path.exists(args.save):
         os.makedirs(args.save)
 
-    for f in files:
+    start = time.time
+    for f in tqdm(files):
         in_path = os.path.join(args.ori, f)
         out_path = os.path.join(args.save, f)
         if args.split == 'func':
@@ -59,4 +62,6 @@ if __name__ == '__main__':
         else:
             raise NotImplementedError
 
+    end = time.time()
+    print(f"Process {len(files)} files.\nTime: {round((end-start)/3600, 2)} Hours.\n")
     

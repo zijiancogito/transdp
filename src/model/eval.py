@@ -2,20 +2,20 @@ from datasets import load_dataset
 from transformers import pipeline
 from transformers import Seq2SeqTrainingArguments, AutoModelForSeq2SeqLM
 from transformers import AutoTokenizer, DataCollatorForSeq2Seq
+from transformers import Seq2SeqTrainer
 
 import evaluate
 import numpy as np
 import torch
 
-def train(data_path, mode_dir):
+def train(data_path, model_dir):
     dataset = load_dataset('csv', 
-                            data_files={"vali": data_path},
+                            data_files={"train": data_path, "vali": data_path},
                             delimiter='\t',
-                            column_names=['input', 'target'],
-                            split='vali')
+                            column_names=['input', 'target'])
 
     print(dataset)
-    checkpoint = "/root/model/aarch64/checkpoint-135000"
+    checkpoint = "/root/model/x64-norm-all/checkpoint-68000"
     tokenizer = AutoTokenizer.from_pretrained(checkpoint)
     def preprocess_function(examples):
         source_lang = "input"
@@ -57,37 +57,35 @@ def train(data_path, mode_dir):
         result = {k: round(v, 4) for k, v in result.items()}
         return result
     
-    def evaluate(example):
-        def get_target(input):
-            encoding = tokenizer.encode(input， return_tensors="pt")
-            input_ids = encoding["input_ids"].to("cuda")
-            attention_mask = encoding["attention_mask"].to("cuda")
-
-        # the forward method will automatically set global attention on question tokens
-        # The scores for the possible start token and end token of the answer are retrived
-        # wrap the function in torch.no_grad() to save memory
-            with torch.no_grad():
-                start_scores, end_scores = model(input_ids=input_ids, attention_mask=attention_mask)
-
-        # Let's take the most likely token using `argmax` and retrieve the answer
-            all_tokens = tokenizer.convert_ids_to_tokens(encoding["input_ids"][0].tolist())
-            answer_tokens = all_tokens[torch.argmax(start_scores): torch.argmax(end_scores)+1]
-            answer = tokenizer.decode(tokenizer.convert_tokens_to_ids(answer_tokens))[1:].replace('"', '')  # remove space prepending space token and remove unnecessary '"'
-        
-            return answer
-
-    # save the model's output here
-        example["output"] = get_answer(example["question"], example["context"])
-
-    # save if it's a match or not
-        example["match"] = (example["output"] in example["targets"]) or (example["output"] == example["norm_target"])
-
-        return example
-
-
 
     model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+
+    training_args = Seq2SeqTrainingArguments(
+        output_dir=model_dir,
+        evaluation_strategy="epoch",
+        learning_rate=2e-5,
+        per_device_train_batch_size=16,
+        per_device_eval_batch_size=16,
+        weight_decay=0.01,
+        save_total_limit=3,
+        num_train_epochs=2,
+        predict_with_generate=True,
+        fp16=True,
+        push_to_hub=False,
+    )
+
+    trainer = Seq2SeqTrainer(
+        model=model,
+        args=training_args,
+        train_dataset=tokenized_data["train"],
+        eval_dataset=tokenized_data["vali"],
+        tokenizer=tokenizer,
+        data_collator=data_collator,
+        compute_metrics=compute_metric,
+    )
+    
+    trainer.train()
     
 if __name__ == '__main__':
-    train('/root/data/aarch64/eval/exp.csv',
-          '/root/model/aarch64')
+    train('/root/data/x64/eval/while.csv',
+          '/root/model/x64-eval-while')

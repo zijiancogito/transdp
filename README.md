@@ -80,7 +80,7 @@
 
     # mips
     python3 func_sp.py -s func -i /root/data/mips/csv-all -o /root/data/x64/csv-func
-    python3 func_sp.py -s func -i /root/data/mips/csv -o /root/data/x64/csv-win
+    python3 func_sp.py -s func -i /root/data/mips/csv-all -o /root/data/x64/csv-win
 
 ```
 
