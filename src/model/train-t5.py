@@ -107,38 +107,3 @@ if __name__ == '__main__':
     train('/root/data/mips/csv-src',
           '/root/model/mips-norm-src')
 
-# {'eval_loss': 0.19186386466026306, 'eval_bleu': 58.7168, 'eval_gen_len': 13.5775, 'eval_runtime': 9640.1935, 'eval_samples_per_second': 906.116, 'eval_steps_per_second': 1.77, 'epoch': 2.0} aarch64
-
-# {'eval_loss': 0.2583463191986084, 'eval_bleu': 59.9352, 'eval_gen_len': 12.1518, 'eval_runtime': 8876.0422, 'eval_samples_per_second': 984.125, 'eval_steps_per_second': 1.922, 'epoch': 2.0} 
-
-# aarch64 norm all with out inst emb
-#{'eval_loss': 0.056397534906864166, 'eval_bleu': 86.8677, 'eval_gen_len': 11.0137, 'eval_runtime': 8736.5132, 'eval_samples_per_second': 999.842, 'eval_steps_per_second': 1.953, 'epoch': 2.0}                                                                                                            
-# {'train_runtime': 69938.7887, 'train_samples_per_second': 999.174, 'train_steps_per_second': 1.952, 'train_loss': 0.06497675813129698, 'epoch': 2.0} 
-
-# x64 norm all with out inst emb 
-# {'eval_loss': 0.05804423615336418, 'eval_bleu': 90.1805, 'eval_gen_len': 11.6534, 'eval_runtime': 8734.6852, 'eval_samples_per_second': 1000.147, 'eval_steps_per_second': 1.953, 'epoch': 1.0}     
-
-# x64 norm asm 
-# {'eval_loss': 0.3170093894004822, 'eval_bleu': 56.0844, 'eval_gen_len': 11.9852, 'eval_runtime': 3534.8417, 'eval_samples_per_second': 988.461, 'eval_steps_per_second': 1.931, 'epoch': 2.0}  
-
-# aarch64 norm asm
-# {'eval_loss': 0.3480462431907654, 'eval_bleu': 49.494, 'eval_gen_len': 11.9248, 'eval_runtime': 3518.0866, 'eval_samples_per_second': 993.073, 'eval_steps_per_second': 1.94, 'epoch': 1.0}
-
-
-# x64 norm src
-# {'eval_loss': 0.05873624607920647, 'eval_bleu': 91.6471, 'eval_gen_len': 11.3392, 'eval_runtime': 3614.4158, 'eval_samples_per_second': 966.699, 'eval_steps_per_second': 1.888, 'epoch': 1.0} 
-
-# aarch64 norm src
-# 'eval_loss': 0.05211639031767845, 'eval_bleu': 89.3345, 'eval_gen_len': 11.2891, 'eval_runtime': 3479.4367, 'eval_samples_per_second': 1004.104, 'eval_steps_per_second': 1.961, 'epoch': 2.0}                                                       
-# {'train_runtime': 28074.4181, 'train_samples_per_second': 995.559, 'train_steps_per_second': 1.944, 'train_loss': 0.07406730816944722, 'epoch': 2.0} 
-
-# mips norm src
-# {'eval_loss': 0.09423783421516418, 'eval_bleu': 86.3538, 'eval_gen_len': 10.6873, 'eval_runtime': 1152.5712, 'eval_samples_per_second': 977.672, 'eval_steps_per_second': 1.91, 'epoch': 1.0} 
-
-# mips norm asm
-# {'eval_loss': 0.258343368768692, 'eval_bleu': 61.5423, 'eval_gen_len': 10.4583, 'eval_runtime': 1693.4488, 'eval_samples_per_second': 665.409, 'eval_steps_per_second': 5.199, 'epoch': 2.0}
-
-# mips norm all
-# {'eval_loss': 0.01045856773853302, 'eval_bleu': 94.1386, 'eval_gen_len': 10.3489, 'eval_runtime': 1934.2212, 'eval_samples_per_second': 1165.32, 'eval_steps_per_second': 2.276, 'epoch': 2.0}
-
-# mips norm no
