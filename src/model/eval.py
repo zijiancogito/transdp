@@ -8,9 +8,9 @@ import evaluate
 import numpy as np
 import torch
 
-def train(data_path, model_dir):
+def train(null_path, data_path, model_dir):
     dataset = load_dataset('csv', 
-                            data_files={"train": data_path, "vali": data_path},
+                            data_files={"train": null_path, "vali": data_path},
                             delimiter='\t',
                             column_names=['input', 'target'])
 
